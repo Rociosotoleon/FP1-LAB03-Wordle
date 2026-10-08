@@ -12,8 +12,10 @@ def es_palabra_valida(cadena: str) -> bool:
     Devuelve:
         True si la cadena es una palabra válida, False en otro caso
     '''
-    # TODO: Implementa esta función
-    return True
+    if len(cadena) == 5 and cadena.isalpha():
+        return True
+    else:
+        return False
 
 def calcula_minutos_y_segundos(inicio: datetime, fin: datetime) -> tuple:
     """ 
@@ -25,12 +27,33 @@ def calcula_minutos_y_segundos(inicio: datetime, fin: datetime) -> tuple:
     Devuelve:
         Una tupla (minutos, segundos) con la diferencia entre los dos datetime
     """
-    # TODO: Implementa esta función
-    pass
 
-# TODO: Escribe la cabecera completa e implementa la función quitar_letra
+    diferencia_minutos = (fin - inicio).total_seconds() / 60
+    diferencia_segundos = (fin - inicio).total_seconds() % 60
+    return (diferencia_minutos, diferencia_segundos)
 
-# TODO: Escribe la cabecera completa e implementa la función marcar_verdes
+
+
+def quitar_letra(cadena, caracter):
+    res = ""
+    caracter_quitado = False 
+    for c in cadena:
+        if c != caracter:
+            res += c
+        elif caracter_quitado == True:
+            res += c
+        else:
+            caracter_quitado = True
+    return res
+
+
+def marcar_verdes(palabra_secreta, intento):
+    verdes = ""
+    restantes = ""
+    for i in intento:
+        if intento.find(i) == palabra_secreta.find(i):
+
+
 
 # TODO: Escribe la cabecera completa e implementa la función marcar_amarillos
 
