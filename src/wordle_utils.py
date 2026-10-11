@@ -28,9 +28,9 @@ def calcula_minutos_y_segundos(inicio: datetime, fin: datetime) -> tuple:
         Una tupla (minutos, segundos) con la diferencia entre los dos datetime
     """
 
-    diferencia_minutos = (fin - inicio).total_seconds() / 60
+    diferencia_minutos = (fin - inicio).total_seconds() // 60
     diferencia_segundos = (fin - inicio).total_seconds() % 60
-    return (diferencia_minutos, diferencia_segundos)
+    return (diferencia_minutos, round(diferencia_segundos, 2))
 
 
 
@@ -38,9 +38,7 @@ def quitar_letra(cadena, caracter):
     res = ""
     caracter_quitado = False 
     for c in cadena:
-        if c != caracter:
-            res += c
-        elif caracter_quitado == True:
+        if c != caracter or caracter_quitado == True:
             res += c
         else:
             caracter_quitado = True
@@ -50,23 +48,39 @@ def quitar_letra(cadena, caracter):
 def marcar_verdes(palabra_secreta, intento):
     verdes = ""
     restantes = ""
-    for i in intento:
-        if intento.find(i) == palabra_secreta.find(i):
+    for i in range(5):
+        if intento[i] == palabra_secreta[i]:
+            verdes += "V"
+        else:
+            verdes += "_"
+            restantes += palabra_secreta[i]
+
+    return verdes, restantes
+
+def marcar_amarillos(intento: str, verdes: str, restantes: str) -> str:
+    colores = ""
+    for i in range(5):
+        if verdes[i] == "V":
+            colores += "V"
+        elif verdes[i] == "_":
+            if intento[i] in restantes: 
+                colores += "A"
+                restantes = restantes.replace(intento[i], "", 1)
+            else:
+                colores += "_"
+    return colores
 
 
-
-# TODO: Escribe la cabecera completa e implementa la función marcar_amarillos
 
 def obtener_pistas(palabra_secreta: str, intento: str) -> str:
-    """
-    Devuelve la cadena de pistas para un intento dado.
+    """Devuelve la cadena de pistas para un intento dado.
     Parámetros:
         palabra_secreta: la palabra secreta
         intento: la palabra del intento
-    Devuelve:
-        Una cadena de 5 caracteres con 'V', 'A' y '_'
-    """
-    # TODO: Implementa esta función
-    return "_____"  # Elimina esta línea cuando la implementes
-
+        Devuelve:
+         Una cadena de 5 caracteres con 'V', 'A' y '_'
+     """
+    verdes, restantes = marcar_verdes(palabra_secreta, intento)
+    colores = marcar_amarillos(intento, verdes, restantes)
+    return colores
 
